@@ -126,7 +126,8 @@ public class TreeNode<T extends Comparable>{
     }
 
     public List<T> levelOrder(TreeNode root){
-        List<T> result = new ArrayList();
+        List<T> result = new ArrayList();   // list to hold the full tree
+        List<T> levelList = new ArrayList<>();  // list to hold the nodes on the current level
         if(root == null){
             return result;
         }
@@ -135,20 +136,21 @@ public class TreeNode<T extends Comparable>{
         int currentLevel = 1;
         while(!levelQueue.isEmpty()){
             int size = levelQueue.size();
-            //List<T> currentLevel = new ArrayList();
             for(int i = 0; i < size; i++){
-                TreeNode currentNode = levelQueue.remove();
+                TreeNode currentNode = levelQueue.remove(); //removes the head of the queue, assigns as currentNode
                 result.add((T) currentNode.contents);
+                levelList.add((T) currentNode.contents);
                 if(currentNode.leftChild != null){
-                    levelQueue.add(currentNode.leftChild);
+                    levelQueue.add(currentNode.leftChild);  // add left child to the queue, reviewed at the next level
                 }
                 if(currentNode.rightChild != null){
-                    levelQueue.add(currentNode.rightChild);
+                    levelQueue.add(currentNode.rightChild); // add left child to the queue, reviewed at the next level
                 }
             }
-            if(currentLevel < 5) {
-                System.out.println("Level " + currentLevel + ": " + result);
+            if(currentLevel < 6) {
+                System.out.println("Level " + currentLevel + ": " + levelList);
             }
+            levelList.clear();  // clear values from the level list after it is printed, now ready for next level nodes
             currentLevel += 1;
         }
         return result;
